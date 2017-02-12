@@ -31,6 +31,8 @@ class CreateCarrosTable extends Migration
             $table->integer('estado');
             $table->integer('idUser')->unsigned();
             $table->string('comentarios');
+            $table->double('precio');
+            $table->integer('contadorImagenes');
             $table->timestamps();
 
             $table->foreign('idModelo')->references('id')->on('modelos');

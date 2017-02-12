@@ -24,6 +24,13 @@ class CreateUsersTable extends Migration
             $table->string('foto');
             $table->string('fb');
             $table->string('twitter');
+            $table->integer('tipo');
+            $table->string('ciudad');
+            $table->boolean('contacto');
+            $table->integer('status');
+            $table->boolean('autopago');
+            $table->integer('fechacorte');
+            $table->string('idStripe');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -15,18 +15,16 @@ class CreateMensajesTable extends Migration
     {
         //
         Schema::create('mensajes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('idUserSend')->unsigned();
-            $table->integer('idUserReceive')->unsigned();
-            $table->date('fecha');
-            $table->time('hora');
-            $table->integer('estado');
-            $table->string('mesaje');
-            $table->timestamps();
+        $table->increments('id');
+        $table->integer('idUserSend')->unsigned();
+        $table->integer('idUserReceive')->unsigned();
+        $table->date('fecha');
+        $table->time('hora');
+        $table->timestamps();
 
-            $table->foreign('idUserSend')->references('id')->on('users');
-            $table->foreign('idUserReceive')->references('id')->on('users');
-        });
+        $table->foreign('idUserSend')->references('id')->on('users');
+        $table->foreign('idUserReceive')->references('id')->on('users');
+    });
     }
 
     /**
