@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="{{ url('/css/woocommerce.css') }}">
 
     </head>
-    <body class="wp-automobile single-page">
+    <body class="wp-automobile single-page cs-agent-detail">
 
     <header id="header">
         <div class="container">
