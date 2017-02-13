@@ -36,7 +36,14 @@
                             </thead>
                             <tbody>
                             <tr class="cart_item">
-                                <td class="product-name">{{ $c[0]->marca }} {{ $c[0]->modelo }}</td>
+                                <?php if(isset($c)){?>
+                                    <td class="product-name">{{ $c[0]->marca }} {{ $c[0]->modelo }}</td>
+                                    <?php } else {
+                                        ?><td class="product-name">Mensualidad Dealer</td>
+                                        <?php
+                                    }
+                                    ?>
+
                                 <td class="product-total"><span class="amount">${{ $monto }}US</span></td>
                             </tr>
                             </tbody>

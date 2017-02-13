@@ -10,6 +10,7 @@ use \App\Modelos;
 use \App\Tipos;
 use \App\Mensajes;
 use Illuminate\Support\Facades\DB;
+use \App\User;
 
 class SistemController extends Controller
 {
@@ -210,5 +211,29 @@ class SistemController extends Controller
         }
 
         return redirect('/');
+    }
+
+    function listaDealers(){
+        $datos=[];
+        $dealers=User::where('tipo', '1')->where('status', '1')->get();
+        $datos['dealers']=$dealers;
+         if(Auth::check()){
+            $u=Auth::user();
+            $datos['user']=$u;
+        }
+        return view('dealers', $datos);
+
+    }
+
+    function perfilPublico($perfilPublico){
+        $datos=[];
+        $perfil=User::find($perfilPublico);
+        $datos['perfil']=$perfil;
+         if(Auth::check()){
+            $u=Auth::user();
+            $datos['user']=$u;
+        }
+        return view('users.perfilPublico', $datos);
+
     }
 }
