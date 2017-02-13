@@ -44,7 +44,7 @@ class UsersController extends Controller
         Auth::login($u);
 
         if(($request->exists('chkDealer')==1)){
-            return redirect('/pagoDealer');
+            return redirect('/pagar');
         }
         else{
             return redirect('/');
@@ -159,6 +159,20 @@ class UsersController extends Controller
 
     function pagoDealer(){
         if(Auth::check()){
+            $u=Auth::user();
+            $error="";
+            if($u->status==1){
+                $error="Ya se ha pagado anteriormente";
+            }
+
+            return view('users.pago',[
+                
+                'user'=>Auth::user(),
+                'error'=>$error,
+                'num'=>'4',
+                'monto'=>'30',
+                'montoDos'=>'3000'
+            ]);
 
         }
         else{

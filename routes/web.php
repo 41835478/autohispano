@@ -18,6 +18,9 @@ Route::get('/login','SistemController@login');
 Route::get('/inventario','SistemController@inventario');
 
 Route::post('/mandarmensaje','SistemController@mandarMensaje');
+Route::get('/lista', 'SistemController@listaDealers');
+
+Route::get('/perfil/{perfilPublico}', 'SistemController@perfilPublico');
 
 
 /****Usuarios********/
