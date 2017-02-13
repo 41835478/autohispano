@@ -9,6 +9,7 @@ use \App\Marcas;
 use \App\Modelos;
 use \App\Tipos;
 use \App\Mensajes;
+use \App\DetalleMensajes;
 use Illuminate\Support\Facades\DB;
 
 class SistemController extends Controller
@@ -190,14 +191,27 @@ class SistemController extends Controller
     function mandarMensaje(request $request){
         if(Auth::check()){
             $id=0;
-            $mensaje=new Mensajes();
-            $mensaje->idUserSend=$request->get('idUserSend');
-            $mensaje->idUserReceive=$request->get('idUserReceive');
-            $mensaje->mensaje=$request->get('txtMensaje');
+            if($request->get('idUserSend')==Auth::user()->id){
+                $mensaje=Mensajes::find($request->get('idMensaje'));
+            }
+            else{
+                $mensaje=new Mensajes();
+            }
+
             $mensaje->hora=date("H:i:s");
             $mensaje->fecha=date("Y") . "/" . date("m") . "/" . date("d");;
-            $mensaje->estado=0;
             $mensaje->save();
+
+            $detalle=new DetalleMensajes();
+            $detalle->idMensaje=$mensaje->id;
+            $detalle->idUserSend=$request->get('idUserSend');
+            $detalle->idUserReceive=$request->get('idUserReceive');
+            $detalle->mensaje=$request->get('txtMensaje');
+            $detalle->hora=date("H:i:s");
+            $detalle->fecha=date("Y") . "/" . date("m") . "/" . date("d");;
+            $detalle->estado=0;
+
+            $detalle->save();
 
             if(Auth::user()->id==$request->get('idUserSend')){
                 $id=$request->get('idUserReceive');

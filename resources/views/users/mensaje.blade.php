@@ -35,6 +35,7 @@
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $user->id }}" name="idUserSend">
                         <input type="hidden" value="{{ $remitente->id }}" name="idUserReceive">
+                        <input type="hidden" value="{{ $mensajes[0]->idMensaje }}" name="idMensaje">
                         <div class="col-lg-12 col-lg-12 col-sm-12 col-xs-12">
                             <div class="cs-modal-field">
                                 <label for="txtMensaje">

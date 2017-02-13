@@ -41,7 +41,7 @@
                                 if($mensaje->idUserSend!=$id){
                                     $id=$mensaje->idUserSend;
                                 ?>
-                                <a href="{{ url('/usuario/mensaje/'.$mensaje->idUserSend) }}" <?php if($mensaje->estado==0){ echo 'class="cs-bgcolor noleido"';}?>>
+                                <a href="{{ url('/usuario/mensaje/'.$mensaje->idUserSend) }}">
                                     <li>{{ $mensaje->nombre }} {{ $mensaje->apellido }}</li>
                                     <li>{{ $mensaje->fecha }}</li>
                                     <li>{{ $mensaje->hora }}</li>

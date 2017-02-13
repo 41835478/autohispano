@@ -277,15 +277,16 @@ class UsersController extends Controller
             $u=Auth::user();
             $mensajes=DB::table('mensajes')
                 ->leftjoin('users','mensajes.idUserSend','=','users.id')->orderby('mensajes.fecha','DESC')->orderby('mensajes.hora','DESC')
-                ->select(DB::RAW('DISTINCT(mensajes.idUserSend),mensajes.id,mensajes.mensaje,mensajes.fecha,mensajes.hora,mensajes.estado,users.nombre, users.apellido'))
+                ->select(DB::RAW('DISTINCT(mensajes.idUserSend),mensajes.id,mensajes.fecha,mensajes.hora, users.nombre, users.apellido'))
                 ->where('mensajes.idUserReceive',$u->id)
-                ->orwhere('mensajes.idUserSend',$u->id);
+                ->orwhere('mensajes.idUserSend',$u->id)->paginate(10);
 
-            echo  $mensajes->toSql();
+
+
             return view('users.mensajes',[
                 'user'=>Auth::user(),
                 'num'=>3,
-                'mensajes'=>$mensajes->paginate(10)
+                'mensajes'=>$mensajes
 
             ]);
         }
@@ -297,22 +298,24 @@ class UsersController extends Controller
     function leerMensaje($id){
         if(Auth::check()){
 
-            $mensajes=DB::table('mensajes')
-                ->leftjoin('users','mensajes.idUserSend','=','users.id')
-                ->select('mensajes.id','mensajes.idUserSend','mensajes.mensaje','mensajes.fecha','mensajes.hora','mensajes.estado','users.nombre', 'users.apellido')
+            $mensajes=DB::table('detallemensajes')
+                ->leftjoin('users','detallemensajes.idUserSend','=','users.id')
+                ->select('detallemensajes.idMensaje','detallemensajes.idUserSend','detallemensajes.mensaje','detallemensajes.fecha','detallemensajes.hora','detallemensajes.estado','users.nombre', 'users.apellido')
                 ->where(function($query) use ($id){
-                    $query->where('mensajes.idUserSend',$id);
-                    $query->where('mensajes.idUserReceive',Auth::user()->id);
+                    $query->where('detallemensajes.idUserSend',$id);
+                    $query->where('detallemensajes.idUserReceive',Auth::user()->id);
                 })->orwhere(function($query) use ($id){
-                    $query->where('mensajes.idUserReceive',$id);
-                    $query->where('mensajes.idUserSend',Auth::user()->id);
+                    $query->where('detallemensajes.idUserReceive',$id);
+                    $query->where('detallemensajes.idUserSend',Auth::user()->id);
                 })->get();
                 $remitente=User::find($id);
 
-            DB::table('mensajes')->where(function($query) use ($id){
-                $query->where('mensajes.idUserSend',$id);
-                $query->where('mensajes.idUserReceive',Auth::user()->id);
+            DB::table('detallemensajes')->where(function($query) use ($id){
+                $query->where('detallemensajes.idUserSend',$id);
+                $query->where('detallemensajes.idUserReceive',Auth::user()->id);
             })->update(['estado'=>1]);
+
+            //return $mensajes->toSql();
 
             return view('users.mensaje',[
                 'user'=>Auth::user(),
