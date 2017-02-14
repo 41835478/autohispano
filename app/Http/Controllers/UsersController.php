@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\User;
 use \App\Pagos;
 use \App\Mensajes;
+use \App\Precios;
 use \App\Carros;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -44,10 +45,10 @@ class UsersController extends Controller
         Auth::login($u);
 
         if(($request->exists('chkDealer')==1)){
-            return redirect('/pagar');
+            return redirect('/usuario/pagar');
         }
         else{
-            return redirect('/');
+            return redirect('/carro/nuevo');
         }
     }
 
@@ -160,6 +161,7 @@ class UsersController extends Controller
     function pagoDealer(){
         if(Auth::check()){
             $u=Auth::user();
+            $precios=Precios::where('tipo','1')->get();
             $error="";
             if($u->status==1){
                 $error="Ya se ha pagado anteriormente";
@@ -170,8 +172,7 @@ class UsersController extends Controller
                 'user'=>Auth::user(),
                 'error'=>$error,
                 'num'=>'4',
-                'monto'=>'30',
-                'montoDos'=>'3000'
+                'precios'=>$precios
             ]);
 
         }
@@ -200,8 +201,6 @@ class UsersController extends Controller
         $pago=new Pagos();
 
         $pago->fecha=date("Y") . "/" . date("m") . "/" . date("d");
-
-        $u=Auth::user();
 
         if($u->tipo==1){
             $pago->monto=30;
@@ -337,6 +336,30 @@ class UsersController extends Controller
                 'mensajes'=>$mensajes,
                 'remitente'=>$remitente
             ]);
+        }
+        return redirect('/');
+    }
+
+    function inventario(){
+        if(Auth::check()){
+            $carros=DB::table('carros')
+                ->join('users','carros.idUser','=','users.id')
+                ->join('modelos','carros.idModelo','=','modelos.id')
+                ->join('tipos','carros.idTipo','=','tipos.id')
+                ->join('marcas','modelos.idMarca','=','marcas.id')
+                ->select('carros.*','modelos.nombre as modelo','marcas.nombre as marca','tipos.nombre as tipo')
+                ->where('carros.idUser',Auth::user()->id)
+                ->orderby('carros.estado','ASC')
+                ->paginate(5);
+
+
+            return view('users.inventario',[
+                'carros'=>$carros,
+                'num'=>2,
+                'user'=>Auth::user()
+            ]);
+
+
         }
         return redirect('/');
     }

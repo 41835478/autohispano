@@ -92,7 +92,7 @@
                                                                 </div>
                                                                 <div class="input-holder">
                                                                     <label for="cs-username"> <strong>Primer Apellido</strong><i class="icon-user-plus"></i>
-                                                                        <input type="text" placeholder="Ingrese su primer apellido" name="txtApellido" id="cs-username"  required>
+                                                                        <input type="text" placeholder="Ingrese su primer apellido" name="txtApellido" id="cs-username">
                                                                     </label>
                                                                 </div>
                                                                 <div class="input-holder">
@@ -112,7 +112,7 @@
                                                                         <label class="label-default" for="someSwitchOptionPrimary"></label>
                                                                     </div>
                                                                     <label for="someSwitchOptionPrimary">
-                                                                        Cuenta Dealer ($30US/mes)
+                                                                        Cuenta Dealer
                                                                     </label>
 
                                                                 </div>
@@ -167,7 +167,7 @@
                                 }
                                 ?>
 
-                                <a aria-hidden="true" data-target="#user-sign-up-sm" href="{{ url('/carro/nuevo') }}" <?php if(!isset($user)){ ?>data-toggle="modal" <?php } ?> class="cs-bgcolor btn-form"><i class="icon-plus"></i> Añada su carro</a>
+                                    <a aria-hidden="true" data-target="#user-sign-up-sm" <?php if(!isset($user)){ ?> data-toggle="modal" <?php }else{ ?> href="{{ url('/carro/nuevo') }}" <?php } ?> class="cs-bgcolor btn-form"><i class="icon-plus"></i> Añada su carro</a>
 
                                 <div role="dialog" tabindex="-1" id="user-sign-up-sm" class="modal fade">
                                     <div role="document" class="modal-dialog">
@@ -187,7 +187,7 @@
                                                         </div>
                                                         <div class="input-holder">
                                                             <label for="cs-username"> <strong>Primer Apellido</strong><i class="icon-user-plus"></i>
-                                                                <input type="text" placeholder="Ingrese su primer apellido" name="txtApellido" id="cs-username"  required>
+                                                                <input type="text" placeholder="Ingrese su primer apellido" name="txtApellido" id="cs-username">
                                                             </label>
                                                         </div>
                                                         <div class="input-holder">
@@ -206,7 +206,7 @@
                                                                 <label class="label-default" for="someSwitchOptionPrimary"></label>
                                                             </div>
                                                             <label for="someSwitchOptionPrimary">
-                                                                Cuenta Dealer ($30US/mes)
+                                                                Cuenta Dealer
                                                             </label>
 
                                                         </div>

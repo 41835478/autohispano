@@ -49,6 +49,8 @@ Route::post('/usuario/nuevo','UsersController@nuevo');
 
 Route::get('/usuario/mensaje/{id}','UsersController@leerMensaje');
 
+Route::get('/usuario/perfil/inventario','UsersController@inventario');
+
 
 
 /*****************Carros***********/
@@ -58,3 +60,5 @@ Route::get('/carro/nuevo','SistemController@agregarCarro');
 Route::post('/carro/nuevo','SistemController@postAgregarCarro');
 
 Route::get('/carro/view/{id}','SistemController@mostrarCarro');
+
+Route::get('/carro/vendido/{id}','SistemController@carroVendido');

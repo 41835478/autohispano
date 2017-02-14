@@ -247,7 +247,33 @@ class SistemController extends Controller
             $u=Auth::user();
             $datos['user']=$u;
         }
+
+        $carros=DB::table('carros')
+            ->inner('modelos','carros.idModelo','=','modelos.id')
+            ->inner('tipos','carros.idTipo','=','tipos.id')
+            ->inner('marcas','modelos.idMarca','=','marcas.id')
+            ->select('carros.*','tipos.nombre as tipo','marcas.nombre as marca','modelos.nomnre as modelo')
+            ->where('carros.idUser',$idUs)
+            ->where(function($query){
+                $query->where('carros.estado','1')
+                    ->orwhere('carros.estado','2');
+            })->orderby('carros.estado')
+            ->paginate(10);
+
+
         return view('users.perfilPublico', $datos);
 
+    }
+
+    function carroVendido($id){
+        if(Auth::check()){
+            $carro=Carros::find($id);
+            if($carro->idUser==Auth::user()->id){
+                $carro->estado=2;
+                $carro->save();
+            }
+        }
+
+        return redirect()->back();
     }
 }

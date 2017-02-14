@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('fb');
             $table->string('twitter');
             $table->integer('tipo');
+            $table->integer('paquete');
             $table->string('ciudad');
             $table->boolean('contacto');
             $table->integer('status');

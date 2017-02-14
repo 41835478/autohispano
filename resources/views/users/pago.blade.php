@@ -20,7 +20,27 @@
                 </div>
             </div>
                 <input type="hidden" value="{{ $c[0]->id }}" name="idCarro">
-            <?php } ?>
+                <?php
+                } ?>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @foreach($precios as $precio)
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                        <div class="pricetable-holder modren first-element">
+                            <h2>{{ $precio->nombre }}</h2>
+                            <div class="price-holder ">
+                                <div class="cs-price">
+                                    <span class="cs-color">
+                                        <sup class="cs-color">$</sup>{{ $precio->precio }}<em>/Mes</em>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @endforeach
+                </div>
 
                 {{ csrf_field() }}
 
@@ -44,20 +64,23 @@
                                     }
                                     ?>
 
-                                <td class="product-total"><span class="amount">${{ $monto }}US</span></td>
+                                <td class="product-total">
+                                    <span class="amount">
+                                        <div class="cs-field-holder">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="cs-field">
+                                                    <select id="cboPrecio" name="cboPrecio" class="chosen-select">
+                                                        @foreach($precios as $precio)
+                                                            <option value="{{ $precio->id }}">${{ $precio->precio }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </td>
                             </tr>
                             </tbody>
-                            <tfoot>
-                            <tr class="cart-subtotal">
-                                <th>Subtotal</th>
-                                <td><span class="amount">${{ $monto }}US</span></td>
-
-                            </tr>
-                            <tr class="order-total">
-                                <th>Total</th>
-                                <td><span class="amount">${{ $monto }}US</span></td>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -69,7 +92,6 @@
                                 <script
                                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                         data-key="pk_test_PLfcizpu5o33tR0cb13IDX3P"
-                                        data-amount="{{ $montoDos }}"
                                         data-email="{{ $user->email }}"
                                         data-locale="auto"
                                         >
