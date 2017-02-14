@@ -229,7 +229,7 @@ class SistemController extends Controller
 
     function listaDealers(){
         $datos=[];
-        $dealers=User::where('tipo', '1')->where('status', '1')->get();
+        $dealers=User::where('tipo', '1')->where('status', '1')->paginate(10);
         $datos['dealers']=$dealers;
          if(Auth::check()){
             $u=Auth::user();
@@ -239,10 +239,28 @@ class SistemController extends Controller
 
     }
 
-    function perfilPublico($perfilPublico){
+    function perfilPublico($idUs){
         $datos=[];
-        $perfil=User::find($perfilPublico);
+        $perfil=User::find($idUs);
+        if($perfil->tipo==1 && $perfil->status==0){
+            $datos['perfil']=$perfil;
+            $datos['error']='No se ha encontrado la página';
+            return view('error', $datos);
+        }
+
+        $carros=DB::table('carros')
+            ->join('modelos', 'carros.idModelo', '=', 'modelos.id')
+            ->join('tipos', 'carros.idTipo', '=', 'tipos.id')
+            ->join('marcas', 'modelos.idMarca', '=', 'marcas.id')
+            ->select('carros.*', 'tipos.nombre as tipo', 'marcas.nombre as marca', 'modelos.nombre as modelo')
+            ->where('carros.idUser', $idUs)
+            ->where(function($query){
+                $query->where('carros.estado', '1')
+                ->orwhere('carros.estado', '2');
+            })->orderby('carros.estado')
+            ->paginate(10);
         $datos['perfil']=$perfil;
+        $datos['carros']=$carros;
          if(Auth::check()){
             $u=Auth::user();
             $datos['user']=$u;
@@ -250,4 +268,5 @@ class SistemController extends Controller
         return view('users.perfilPublico', $datos);
 
     }
+
 }
