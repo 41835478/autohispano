@@ -52,6 +52,7 @@
             @endforeach
 
           </div>
+          {{ $dealers->links() }}
         </div>
 
       </div>

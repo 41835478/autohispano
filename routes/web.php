@@ -20,7 +20,7 @@ Route::get('/inventario','SistemController@inventario');
 Route::post('/mandarmensaje','SistemController@mandarMensaje');
 Route::get('/lista', 'SistemController@listaDealers');
 
-Route::get('/perfil/{perfilPublico}', 'SistemController@perfilPublico');
+Route::get('/perfil/{idUs}', 'SistemController@perfilPublico');
 
 
 /****Usuarios********/
